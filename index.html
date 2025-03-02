@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>untuk si ovt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: url("salman.jpg") no-repeat center center fixed;
+        background-size: cover;
+        font-family: poppins, sans-serif;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      .container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .envelope {
+        width: 300px;
+        height: 200px;
+        background: url("love.png") no-repeat center center;
+        background-size: contain;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 10;
+      }
+
+      @media (max-width: 768px) {
+        .envelope {
+          width: 300px;
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .envelope {
+          width: 300px;
+          height: 200px;
+        }
+      }
+
+      .envelope:hover {
+        transform: scale(1.05);
+      }
+
+      .letter {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 500px;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.49);
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.8s ease;
+        z-index: 20;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      @media (max-width: 768px) {
+        .letter {
+          width: 85%;
+          padding: 25px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .letter {
+          width: 90%;
+          padding: 20px 15px;
+          max-height: 75vh;
+        }
+      }
+
+      .letter.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: transparent;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #ff5a5a;
+        z-index: 2;
+      }
+
+      @media (max-width: 480px) {
+        .close-btn {
+          top: 7px;
+          right: 10px;
+          font-size: 20px;
+        }
+      }
+
+      .love-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 5;
+        display: none;
+      }
+
+      .heart {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background: url("hati.png") no-repeat center center;
+        background-size: contain;
+        animation: float 5s ease-in-out infinite;
+      }
+
+      @media (max-width: 768px) {
+        .heart {
+          width: 50px;
+          height: 50px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .heart {
+          width: 50px;
+          height: 50px;
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) scale(0.6);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-50vh) scale(1);
+          opacity: 0;
+        }
+      }
+
+      @keyframes appear {
+        from {
+          opacity: 0;
+          transform: translateX(-50%) scale(0.5);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(-50%) scale(1);
+        }
+      }
+
+      .letter-header {
+        margin-bottom: 15px;
+      }
+
+      .message-container {
+        flex: 1;
+        overflow-y: auto;
+        margin-right: -10px; /* Create space for scrollbar without affecting layout */
+        padding-right: 10px; /* Add padding to maintain text positioning */
+        max-height: 60vh; /* Set a maximum height for the message container */
+        margin-bottom: 20px; /* Add margin to create space below */
+      }
+
+      .message-container::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .message-container::-webkit-scrollbar-track {
+        background: rgba(241, 241, 241, 0.5);
+        border-radius: 10px;
+        margin: 5px 0;
+      }
+
+      .message-container::-webkit-scrollbar-thumb {
+        background: #ff99a8;
+        border-radius: 10px;
+      }
+
+      .message-container::-webkit-scrollbar-thumb:hover {
+        background: #ff5a5a;
+      }
+
+      .message-container {
+        scrollbar-width: thin;
+        scrollbar-color: #ff99a8 rgba(241, 241, 241, 0.5);
+      }
+
+      p {
+        line-height: 1.6;
+        color: #333;
+        margin-bottom: 15px;
+        position: relative;
+        text-align: justify;
+        white-space: normal;
+      }
+
+      @media (max-width: 768px) {
+        p {
+          font-size: 15px;
+          line-height: 1.5;
+        }
+      }
+
+      @media (max-width: 480px) {
+        p {
+          font-size: 14px;
+          line-height: 1.4;
+          margin-bottom: 12px;
+        }
+      }
+
+      .typing-text {
+        display: none;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow: hidden;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .typing-text.visible {
+        display: block;
+        position: relative;
+      }
+
+      .typing-cursor {
+        display: inline-block;
+        width: 2px;
+        height: 1.2em;
+        background-color: #ff366e;
+        vertical-align: middle;
+        margin-left: 2px;
+        animation: blink-caret 0.75s step-end infinite;
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      h2 {
+        color: #ff366e;
+        text-align: center;
+        margin-bottom: 20px;
+        margin-top: 5px;
+      }
+
+      @media (max-width: 768px) {
+        h2 {
+          font-size: 22px;
+          margin-bottom: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h2 {
+          font-size: 20px;
+          margin-bottom: 12px;
+        }
+      }
+
+      @media (max-height: 500px) and (orientation: landscape) {
+        .letter {
+          top: 50%;
+          max-height: 85vh;
+          padding: 15px;
+        }
+
+        .message-container {
+          max-height: 150px;
+        }
+
+        h2 {
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+
+        p {
+          font-size: 13px;
+          margin-bottom: 8px;
+        }
+      }
+
+      .message-text {
+        white-space: normal;
+        word-wrap: break-word;
+        word-break: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="envelope" id="envelope" onclick="openEnvelope()"></div>
+
+      <div class="letter" id="letter">
+        <button class="close-btn" onclick="closeLetter()">×</button>
+        <div class="letter-header">
+          <h2>Aloooo sayangkuuuuu🫠🤍</h2>
+        </div>
+        <div class="message-container" id="messageContainer">
+          <p id="typingText1" class="typing-text message-text">
+            buat micaaakuuu yang selalu pendam masalah sendirian, Sa mau bilang
+            tetap semangat yah!! sa tau kita kuat meskipun masalah yang datang
+            tidak selalu ringan. sa akan selalu ada disini baut kita, temani
+            kita, meskipun cuma dari jauh. saya mengerti kadang suasana di rumah
+            ta bikin kita jadi capek, badmood, dan masalah masalah lain. tapi
+            jangan nyerah yaaa sygkuuu! sa percaya kita bisa lewati semua
+            masalah yang ada. saya mungkin belum bisa bantu banyak, tapi sa akan
+            selalu ada buat kita, kapanpun kita butuh saya🫶🫶.
+          </p>
+          <br />
+
+          <p id="typingText2" class="typing-text message-text">
+            Every day i'm so proud of you🫠💗, sa selalu jatuh cinta lagi dan
+            lagi sama kita🤍🫶, dan bicara sama kita itu bikin sa senaaang
+            sekaliiii. walaupun ndak tiap hari kita bicara, tapi rasanya bahagia
+            sekaliii, dan selama masih ada kita sa rasa semuanya akan baik baik
+            saja, jadi kalau ada apa apa, cerita saja ke saya, jangan di pendam
+            sendiri sayangkuuuuu🫠.
+          </p>
+          <br />
+
+          <p id="typingText3" class="typing-text message-text">
+            terakhir saya sayaaaaanggggg sekali sama kita💐💗 sa janji akan
+            berusaha selalu ada buat kita, apapun kondisinya. sa janji selalu
+            berusaha jadi lebih baik tiap harinya supaya bisa jadi orang yang
+            terbaik untuk kita. mungkin kita tidak selalu punya waktu untuk
+            bicara berdua tiap hari karena kesibukan masing-masing, tapi
+            percayalah, dalam hatiku kita selalu jadi prioritas utama. sa selalu
+            pikirkan kita. sa harap kita bisa terus sama sama, dihubungan ini
+            hanya ada kita dan saya😊. semua masalah yang kita hadapi sekarang,
+            kita akan hadapi sama-sama yaaa sayangkuuu💗🫠💐
+          </p>
+          <br />
+
+          <p id="typingText4" class="typing-text message-text">
+            kita itu adalah sumber kebahagiaan dan semangatku setiap harinya.
+            tidak ada yang lebih membahagiakan selain melihat kita tersenyum. sa
+            akan selalu berusaha membuat kita bahagia. walaupun kita jauh dan
+            tidak bisa bertemu setiap hari, jaga kesehatan ta, dan selalu
+            berdoa. tetap semangat untuk mengejar mimpi kita ya sayang. i love
+            you so much, today, tomorrow, and forever!. i love you
+            micaaaaaa💗💐🤍🫶😍💕
+          </p>
+          <span id="typingCursor" class="typing-cursor"></span>
+        </div>
+      </div>
+
+      <audio loop id="loveSong">
+        <source src="Audio.mp3" type="audio/mpeg" />
+      </audio>
+
+      <div class="love-animation" id="loveAnimation"></div>
+    </div>
+
+    <script>
+      // Elements
+      const envelope = document.getElementById("envelope");
+      const letter = document.getElementById("letter");
+      const loveSong = document.getElementById("loveSong");
+      const loveAnimation = document.getElementById("loveAnimation");
+      const typingText1 = document.getElementById("typingText1");
+      const typingText2 = document.getElementById("typingText2");
+      const typingText3 = document.getElementById("typingText3");
+      const typingText4 = document.getElementById("typingText4");
+      const typingCursor = document.getElementById("typingCursor");
+      const messageContainer = document.getElementById("messageContainer");
+
+      // Variables for typing animation
+      let currentText = "";
+      let currentIndex = 0;
+      let isTyping = false;
+      let currentParagraph = 1;
+      let typingInterval;
+
+      function openEnvelope() {
+        // Show letter with animation
+        letter.classList.add("show");
+
+        // Play background music
+        loveSong.volume = 0.5;
+        loveSong
+          .play()
+          .catch((e) => console.log("Audio playback prevented: ", e));
+
+        // Show heart animations
+        loveAnimation.style.display = "block";
+        createHearts();
+
+        // Hide envelope
+        envelope.style.display = "none";
+
+        // Start typing animation
+        setTimeout(() => {
+          startRealTypingAnimation();
+        }, 500);
+      }
+
+      function startRealTypingAnimation() {
+        // Set up first paragraph for typing
+        typingText1.classList.add("visible");
+        typingText1.textContent = "";
+        messageContainer.appendChild(typingCursor);
+
+        // Get the text content to type
+        currentText =
+          document
+            .getElementById("typingText" + currentParagraph)
+            .getAttribute("data-original-text") ||
+          document
+            .getElementById("typingText" + currentParagraph)
+            .textContent.trim();
+
+        // Save original text if not saved before
+        if (
+          !document
+            .getElementById("typingText" + currentParagraph)
+            .getAttribute("data-original-text")
+        ) {
+          document
+            .getElementById("typingText" + currentParagraph)
+            .setAttribute("data-original-text", currentText);
+        }
+
+        currentIndex = 0;
+        isTyping = true;
+
+        // Start typing animation
+        typingInterval = setInterval(typeNextChar, 50);
+      }
+
+      function typeNextChar() {
+        if (currentIndex < currentText.length) {
+          // Type next character
+          let char = currentText.charAt(currentIndex);
+          let element = document.getElementById(
+            "typingText" + currentParagraph
+          );
+
+          if (char === "\n") {
+            // Add a <br> element for newlines
+            element.innerHTML += "<br>";
+          } else {
+            element.textContent += char;
+          }
+
+          currentIndex++;
+
+          // Auto-scroll to keep up with typing
+          messageContainer.scrollTop = messageContainer.scrollHeight;
+        } else {
+          // Reached end of current paragraph
+          clearInterval(typingInterval);
+
+          if (currentParagraph < 4) {
+            // More paragraphs to type
+            currentParagraph++;
+
+            // Wait before typing next paragraph
+            setTimeout(() => {
+              // Hide first paragraph cursor
+              typingCursor.style.display = "none";
+
+              // Set up next paragraph
+              document
+                .getElementById("typingText" + currentParagraph)
+                .classList.add("visible");
+              document.getElementById(
+                "typingText" + currentParagraph
+              ).textContent = "";
+
+              // Get text for next paragraph
+              currentText =
+                document
+                  .getElementById("typingText" + currentParagraph)
+                  .getAttribute("data-original-text") ||
+                document
+                  .getElementById("typingText" + currentParagraph)
+                  .textContent.trim();
+
+              // Save original text if not saved before
+              if (
+                !document
+                  .getElementById("typingText" + currentParagraph)
+                  .getAttribute("data-original-text")
+              ) {
+                document
+                  .getElementById("typingText" + currentParagraph)
+                  .setAttribute("data-original-text", currentText);
+              }
+
+              // Show cursor again
+              typingCursor.style.display = "inline-block";
+              document
+                .getElementById("typingText" + currentParagraph)
+                .after(typingCursor);
+
+              currentIndex = 0;
+
+              // Start typing animation for next paragraph
+              typingInterval = setInterval(typeNextChar, 50);
+
+              // Scroll to the bottom after the first paragraph
+              if (currentParagraph === 2) {
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+              }
+            }, 1000);
+          } else {
+            // All paragraphs typed
+            setTimeout(() => {
+              typingCursor.style.display = "none";
+            }, 2000);
+          }
+        }
+      }
+
+      function closeLetter() {
+        // Hide letter
+        letter.classList.remove("show");
+
+        // Stop audio
+        loveSong.pause();
+        loveSong.currentTime = 0;
+
+        // Hide animations
+        loveAnimation.style.display = "none";
+
+        // Show envelope again
+        envelope.style.display = "block";
+
+        // Reset typing animation
+        clearInterval(typingInterval);
+        currentParagraph = 1;
+
+        // Reset paragraph displays
+        typingText1.classList.remove("visible");
+        typingText2.classList.remove("visible");
+        typingText3.classList.remove("visible");
+        typingText4.classList.remove("visible");
+        typingCursor.style.display = "inline-block";
+      }
+
+      function createHearts() {
+        // Clear existing hearts
+        loveAnimation.innerHTML = "";
+
+        // Create new hearts
+        const numHearts = window.innerWidth < 480 ? 12 : 20; // Fewer hearts on mobile
+        for (let i = 0; i < numHearts; i++) {
+          setTimeout(() => {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.style.left = Math.random() * 90 + 5 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            heart.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+            loveAnimation.appendChild(heart);
+
+            // Remove heart after animation completes
+            setTimeout(() => {
+              heart.remove();
+            }, 7000);
+          }, i * 300); // Stagger creation of hearts
+        }
+
+        // Continue creating hearts
+        if (loveAnimation.style.display !== "none") {
+          setTimeout(createHearts, 7000);
+        }
+      }
+
+      // Check for touch devices and adjust interactions
+      function isTouchDevice() {
+        return (
+          "ontouchstart" in window ||
+          navigator.maxTouchPoints > 0 ||
+          navigator.msMaxTouchPoints > 0
+        );
+      }
+
+      // If touch device, adjust some behaviors
+      if (isTouchDevice()) {
+        // Make sure envelope is easily tappable
+        envelope.style.padding = "10px";
+      }
+
+      // Handle orientation changes
+      window.addEventListener("orientationchange", function () {
+        // Adjust layout if needed
+        if (window.orientation === 90 || window.orientation === -90) {
+          // Landscape mode
+          if (letter.classList.contains("show")) {
+            // Reposition elements if needed
+            setTimeout(() => {
+              window.scrollTo(0, 0);
+            }, 100);
+          }
+        }
+      });
+
+      // Save original text content for paragraphs
+      window.onload = function () {
+        // Store the original text content when page loads
+        document.querySelectorAll(".typing-text").forEach(function (element) {
+          element.setAttribute(
+            "data-original-text",
+            element.textContent.trim()
+          );
+        });
+
+        // Ensure proper text formatting for all paragraphs
+        document.querySelectorAll(".message-text").forEach(function (element) {
+          element.style.whiteSpace = "normal";
+          element.style.wordWrap = "break-word";
+        });
+      };
+    </script>
+  </body>
+</html>
